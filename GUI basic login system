@@ -1,0 +1,212 @@
+from tkinter import *
+import os
+
+def delete1():
+    log_success.destroy()
+def delete2():
+    pass_not.destroy()
+def delete3():
+    user_not.destroy()
+
+
+def login_success():
+
+    global log_success
+    log_success = Toplevel(root)
+    log_success.title("Login Success!")
+    log_success.geometry("200x100")
+    Label(log_success, text = "Login Success").pack()
+    Label(log_success, text = "").pack()
+    Button(log_success, text = "OK", command = delete1).pack()
+
+def password_not_recognized():
+    global pass_not
+    pass_not = Toplevel(root)
+    pass_not.title("Error")
+    pass_not.geometry("200x100")
+    Label(pass_not, text = "Password not recognized").pack()
+    Label(pass_not, text = "").pack()
+    Button(pass_not, text = "OK", command = delete2).pack()
+
+
+def user_not_found():
+    global user_not
+    user_not = Toplevel(root)
+    user_not.title("Error")
+    user_not.geometry("200x100")
+    Label(user_not, text = "User not found").pack()
+    Label(user_not, text = "").pack()
+    Button(user_not,text = "OK", command = delete3).pack()
+
+
+def Register_NewUser():
+    print("Working...")
+    username_info = username.get()
+    password_info = password.get()
+
+    file=open(username_info, "w")
+    file.write(username_info+"\n")
+    file.write(password_info)
+    file.close()
+
+    username_entry.delete(0, END)
+    password_entry.delete(0, END)
+
+    Label(register_win,text = "Registration Success", fg = "green").pack()
+    
+
+    
+
+
+def Register():
+    global register_win
+    register_win = Toplevel(root)
+    register_win.title("Register new User")
+    register_win.geometry("300x250")
+
+    global username
+    global password
+
+    global username_entry
+    global password_entry
+
+    username = StringVar()
+    password = StringVar()
+
+
+    Label(register_win, text="Please enter details below").pack()
+    Label(register_win, text="").pack()
+
+       
+    Label(register_win, text="USERID").pack()
+    username_entry = Entry(register_win, textvariable = username)
+    username_entry.pack()
+    Label(register_win, text="Password").pack()
+    password_entry = Entry(register_win, textvariable = password, show = "*")
+    password_entry.pack()
+    Label(register_win, text= "").pack()
+    Button(register_win, text="Done", width = 10, height = 1, command = Register_NewUser).pack()
+
+def login_verify():
+
+    
+    username1 = username_verify.get()
+    password1 = password_verify.get()
+    username_entry1.delete(0, END)
+    password_entry1.delete(0, END)
+
+    list_of_files = os.listdir("C:\\Users\Strappy\AppData\Local\Programs\Python\Python38-32\ADMINAC")
+    if  username1 in list_of_files:
+      file1 = open(username1, "r")
+      verify = file1.read().splitlines()
+      if password1 in verify:
+          login_success()
+      else:
+          password_not_recognized()
+    else:
+        user_not_found()
+
+
+def login_screen():
+    global login
+    login_screen = Toplevel()
+    login_screen.geometry("300x250")
+    login_screen.title("Login")
+
+    Label(login_screen, text="Please enter details to login").pack()
+    Label(login_screen, text="").pack()
+
+    global username_verify
+    global password_verify
+    
+    username_verify = StringVar()
+    password_verify = StringVar()
+
+    global username_entry1
+    global password_entry1
+
+    Label(login_screen, text = "USERID").pack()    
+    username_entry1 = Entry(login_screen, textvariable = username_verify)
+    username_entry1.pack()
+    Label(login_screen, text="").pack()
+    Label(login_screen, text = "PASSWORD").pack() 
+    password_entry1 = Entry(login_screen, textvariable = password_verify, show = "*")
+    password_entry1.pack()
+    Label(login_screen, text="").pack()
+    Button(login_screen, text = "Login", width = 10, height = 1, command = login_verify).pack()
+
+
+def LoginAD_verify():
+        
+    username1 = username_verify.get()
+    password1 = password_verify.get()
+    username_entry1.delete(0, END)
+    password_entry1.delete(0, END)
+
+    list_of_files = os.listdir()
+    if  username1 in list_of_files:
+      file1 = open(username1, "r")
+      verify = file1.read().splitlines()
+      if password1 in verify:
+          login_success()
+      else:
+          password_not_recognized()
+    else:
+        user_not_found()
+
+def ADMIN_USER():
+    ad_user = Toplevel(root)
+    ad_user.title("ADMIN Login")
+    ad_user.geometry("300x250")
+    Label(ad_user, text="").pack()
+
+    global username_verify
+    global password_verify
+    
+    username_verify = StringVar()
+    password_verify = StringVar()
+
+    global username_entry1
+    global password_entry1
+
+    Label(ad_user, text = "USERID").pack()    
+    username_entry1 = Entry(ad_user, textvariable = username_verify)
+    username_entry1.pack()
+    Label(ad_user, text="").pack()
+    Label(ad_user, text = "PASSWORD").pack() 
+    password_entry1 = Entry(ad_user, textvariable = password_verify, show = "*")
+    password_entry1.pack()
+    Label(ad_user, text="").pack()
+    Button(ad_user, text = "Login", width = 10, height = 1, command = LoginAD_verify).pack()
+    
+def ADMIN():
+    admin_win = Toplevel(root)
+    admin_win.title("ADMINISTRATOR")
+    admin_win.geometry("300x250")
+    Label(admin_win, text="").pack()
+    Label(admin_win, text = "Register new USERID").pack()
+    Label(admin_win, text = "").pack()
+    Button(admin_win, text= "Register", command = Register, width = 10, height = 1).pack()
+    Label(admin_win, text="").pack()
+    Button(admin_win, text = "Login", command = login_screen, width = 10, height = 1).pack()
+
+
+
+def Main_Screen():
+    global root
+    root = Tk()
+    root.geometry("300x250")
+    root.iconbitmap("favicon.ico")
+    root.title("Main")
+    Label(text="Welcome", bg="black", fg="white", font=("Arial", 13), width = "300", height= "2").pack()
+    Label(text="").pack()
+    Button(text="ADMIN", command = ADMIN_USER, width = 10, height = 1).pack()
+    Label(text="").pack()
+    Button(text="USER", width = 10, height = 1, command = login_screen).pack()
+    
+    
+
+    root.mainloop()
+
+Main_Screen()    
+    
